@@ -35,7 +35,15 @@
 	<select id="getBoardList" resultType="board">
 		<![CDATA[
 			SELECT * FROM BOARD
-			WHERE TITLE LIKE '%' || #{searchKeyword} || '%'
+			WHERE 1 = 1
+		]]>
+		<if test="searchCondition == 'TITLE'">
+			AND TITLE LIKE '%' || #{searchKeyword} || '%'
+		</if>		
+		<if test="searchCondition == 'CONTENT'">
+			AND CONTENT LIKE '%' || #{searchKeyword} || '%'
+		</if>		
+		<![CDATA[
 			ORDER BY SEQ DESC
 		]]>
 	</select>
