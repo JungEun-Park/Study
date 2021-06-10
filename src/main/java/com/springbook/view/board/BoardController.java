@@ -3,6 +3,7 @@ package com.springbook.view.board;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.springbook.biz.board.BoardListVO;
 import com.springbook.biz.board.BoardService;
 import com.springbook.biz.board.BoardVO;
 
@@ -76,16 +79,32 @@ public class BoardController {
 		return conditionMap;
 	}
 
+	// 글 목록 변환 처리
+	@RequestMapping("/dataTransform.do")
+	@ResponseBody
+	public BoardListVO dataTransform(BoardVO vo) {
+		vo.setSearchCondition("TITLE");
+		vo.setSearchKeyword("");
+		List<BoardVO> boardList = boardService.getBoardList(vo);
+		BoardListVO boardListVO = new BoardListVO();
+		boardListVO.setBoardList(boardList);
+		return boardListVO;
+		
+	}
+	
 	// 글 목록 검색
 	@RequestMapping("/getBoardList.do")
 	public String getBoardList(BoardVO vo, Model model) {
 		System.out.println("글 목록 검색 처리");
 		// Null Check
+		System.out.println(vo.getSearchKeyword());
 		if(vo.getSearchCondition() == null) vo.setSearchCondition("TITLE");
 		if(vo.getSearchKeyword() == null) vo.setSearchKeyword("");
 		
+		List<BoardVO> boardList = boardService.getBoardList(vo);
+		
 		// Model 정보 저장		
-		model.addAttribute("boardList", boardService.getBoardList(vo));
+		model.addAttribute("boardList", boardList);
 		return "getBoardList.jsp"; // View이름 리턴
 	}
 }

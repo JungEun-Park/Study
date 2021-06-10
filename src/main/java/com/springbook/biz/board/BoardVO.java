@@ -2,20 +2,35 @@ package com.springbook.biz.board;
 
 import java.sql.Date;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlTransient;
+
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+// VO(Value Object)
+@XmlAccessorType(XmlAccessType.FIELD)
+// BoardVO 객체를 XML로 변환할 수 있다는 의미. 이 객체가 가진 필드, 변수들은 자동으로 자식 엘리먼트로 표현된다.
 public class BoardVO {
+	@XmlAttribute
 	private int seq;
 	private String title;
 	private String writer;
 	private String content;
 	private Date regDate;
 	private int cnt;
+	@XmlTransient
 	private String searchCondition;
+	@XmlTransient
 	private String searchKeyword;
+	@XmlTransient
 	private MultipartFile uploadFile;
 	
+	
+	// Getter/Setter 메소드
 	
 	public int getSeq() {
 		return seq;
@@ -53,18 +68,21 @@ public class BoardVO {
 	public void setCnt(int cnt) {
 		this.cnt = cnt;
 	}
+	@JsonIgnore
 	public String getSearchCondition() {
 		return searchCondition;
 	}
 	public void setSearchCondition(String searchCondition) {
 		this.searchCondition = searchCondition;
 	}
+	@JsonIgnore
 	public String getSearchKeyword() {
 		return searchKeyword;
 	}
 	public void setSearchKeyword(String searchKeyword) {
 		this.searchKeyword = searchKeyword;
 	}
+	@JsonIgnore
 	public MultipartFile getUploadFile() {
 		return uploadFile;
 	}

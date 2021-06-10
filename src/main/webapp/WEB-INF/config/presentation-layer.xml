@@ -18,9 +18,11 @@
 	<property name="maxUploadSize" value="100000" />	
 	</bean>
 	
+	<mvc:annotation-driven></mvc:annotation-driven>
+	<!-- HttpMessageConvertrt를 구현한 모든 변환기가 생성된다. 
+	이후에 xml변환에 필요한 변환기도 자동으로 등록된다. -->
 	
 	<!-- 예외 처리 설정 -->	
-	<!-- <mvc:annotation-driven></mvc:annotation-driven> -->
 	<bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
@@ -45,7 +47,6 @@
 			</list>
 		</property>
 	</bean>
-	
 	
 	<!-- LocaleResolver 등록 -->
 	<bean id="localeResolver"
